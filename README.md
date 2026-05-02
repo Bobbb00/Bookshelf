@@ -1,68 +1,128 @@
-# CodeIgniter 4 Application Starter
+# Bookshelf — Aplikasi Manajemen Buku (CI4)
 
-## What is CodeIgniter?
+> **Tugas PBF — Universitas Bhayangkara Jakarta Raya**
+> Program Studi Informatika | CodeIgniter 4
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+---
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## 📋 Progres Pengerjaan Soal
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+| No Soal | Ketentuan | Bobot | Status |
+|---------|-----------|-------|--------|
+| 4 | Instalasi framework CodeIgniter 4 & jelaskan struktur folder | 5% | ✅ Selesai |
+| 5 | Buat minimal 3 routing (home, barang, dashboard) | 5% | ✅ Selesai (9 route) |
+| 6 | Buat controller dasar untuk modul barang (index, create, store, edit, update, delete) | 10% | ✅ Selesai |
+| 7 | Buat tampilan (view): halaman data barang, form tambah, form edit | 10% | ✅ Selesai |
+| 8 | Implementasi CRUD Barang terhubung database (tambah, tampil, edit, hapus) | 20% | ✅ Selesai |
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+---
 
-## Installation & updates
+## 🗂️ Struktur Folder Project
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+```
+CI4/
+├── app/
+│   ├── Config/
+│   │   ├── Routes.php       → Routing aplikasi (9 route)
+│   │   ├── Filters.php      → Filter login, role, permission (Myth/Auth)
+│   │   └── Auth.php         → Konfigurasi autentikasi
+│   ├── Controllers/
+│   │   ├── Home.php         → Controller utama (index, register, dashboard)
+│   │   └── Buku.php         → Controller CRUD buku (6 method)
+│   ├── Models/
+│   │   └── BukuModel.php    → Model tabel buku + validasi
+│   ├── Views/
+│   │   ├── auth/
+│   │   │   ├── login.php    → Halaman login
+│   │   │   └── register.php → Halaman register
+│   │   ├── admin/
+│   │   │   ├── index.php    → Dashboard admin (statistik)
+│   │   │   └── buku/
+│   │   │       ├── index.php  → Halaman data buku (tampil)
+│   │   │       ├── create.php → Form tambah buku
+│   │   │       └── edit.php   → Form edit buku
+│   │   └── template/
+│   │       ├── index.php    → Layout utama
+│   │       ├── sidebar.php  → Navigasi sidebar
+│   │       ├── topbar.php   → Navigasi topbar
+│   │       └── footer.php   → Footer
+│   └── Database/
+│       └── Migrations/      → (kosong, tabel dibuat manual)
+├── public/                  → Entry point aplikasi
+├── vendor/                  → Dependencies Composer
+├── .env                     → Konfigurasi environment
+└── spark                    → CLI CodeIgniter
+```
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+---
 
-## Setup
+## 🗃️ Database
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+**Nama Database:** `PBF`
+**Driver:** MySQLi | **Host:** 127.0.0.1 | **Port:** 3306
 
-## Important Change with index.php
+### Tabel `buku`
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+| Kolom | Tipe | Keterangan |
+|-------|------|------------|
+| `id` | INT AUTO_INCREMENT | Primary key |
+| `judul` | VARCHAR(150) | Judul buku |
+| `pengarang` | VARCHAR(100) | Nama pengarang |
+| `penerbit` | VARCHAR(100) | Nama penerbit |
+| `isbn` | VARCHAR(20) | ISBN (opsional) |
+| `genre` | VARCHAR(50) | Genre buku |
+| `harga` | DECIMAL(15,2) | Harga buku |
+| `stok` | INT | Jumlah stok |
+| `deskripsi` | TEXT | Deskripsi/sinopsis |
+| `created_at` | DATETIME | Dibuat otomatis |
+| `updated_at` | DATETIME | Diupdate otomatis |
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+---
 
-**Please** read the user guide for a better explanation of how CI4 works!
+## 🚦 Routing
 
-## Repository Management
+| Method | URL | Controller | Fungsi |
+|--------|-----|------------|--------|
+| GET | `/` | `Home::index` | Halaman login |
+| GET | `/register` | `Home::register` | Halaman register |
+| GET | `/dashboard` | `Home::dashboard` | Dashboard admin |
+| GET | `/buku` | `Buku::index` | Tampil daftar buku |
+| GET | `/buku/create` | `Buku::create` | Form tambah buku |
+| POST | `/buku/store` | `Buku::store` | Simpan buku baru |
+| GET | `/buku/edit/{id}` | `Buku::edit` | Form edit buku |
+| POST | `/buku/update/{id}` | `Buku::update` | Update data buku |
+| GET | `/buku/delete/{id}` | `Buku::delete` | Hapus buku |
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+---
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+## 🔐 Autentikasi
 
-## Server Requirements
+Menggunakan library **Myth/Auth** untuk CI4.
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+- Filter `login` aktif secara global → semua halaman membutuhkan login
+- Filter `role` dan `permission` tersedia tapi belum diterapkan per-route
+- Setelah login berhasil → redirect ke `/dashboard`
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+---
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+## ▶️ Cara Menjalankan
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+```bash
+# Jalankan development server
+php spark serve
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+# Akses di browser
+http://localhost:8080
+```
+
+---
+
+## 🛠️ Tech Stack
+
+| Komponen | Detail |
+|----------|--------|
+| Framework | CodeIgniter 4 |
+| Database | MySQL (via XAMPP) |
+| Auth | Myth/Auth |
+| Frontend | Bootstrap 5 + FontAwesome 6 |
+| PHP | >= 8.1 |

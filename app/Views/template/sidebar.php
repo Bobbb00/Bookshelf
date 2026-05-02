@@ -1,12 +1,18 @@
  <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <div class="sb-sidenav-menu-heading">Core</div>
+                            <div class="sb-sidenav-menu-heading">Home</div>
                             <a class="nav-link" href="<?= url_to('dashboard') ?>">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
-                            <div class="sb-sidenav-menu-heading">Interface</div>
+                            <?php if (in_groups('admin')): ?>
+                            <div class="sb-sidenav-menu-heading">Menu</div>
+                            <a class="nav-link" href="<?= base_url('/buku') ?>">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
+                                Data Buku
+                            </a>
+                            <?php endif; ?>
                             <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                                 Layouts

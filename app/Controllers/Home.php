@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\BukuModel;
+
 class Home extends BaseController
 {
     public function index()
@@ -18,8 +20,21 @@ class Home extends BaseController
         return view('auth/register');
     }
 
-    public function dashboard(): string
+    public function dashboard()
     {
-        return view('user/index');
+        // Redirect Admin ke Admin Dashboard
+        if (in_groups('admin')) {
+            return redirect()->to('/admin/dashboard');
+        }
+
+        $bukuModel = new BukuModel();
+
+        // Tampilkan buku yang stoknya masih ada (> 0)
+        $data = [
+            'buku' => $bukuModel->where('stok >', 0)->orderBy('id', 'DESC')->findAll(),
+        ];
+
+        return view('user/index', $data);
     }
 }
+
