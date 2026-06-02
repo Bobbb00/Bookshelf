@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var array $buku
+ */
+?>
 <?= $this->extend('template/admin/admin_layout') ?>
 <?= $this->section('page-content') ?>
 <main>
@@ -64,15 +69,15 @@
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <strong><?= esc($item['judul']) ?></strong>
+                                        <strong><?= esc((string) $item['judul']) ?></strong>
                                         <?php if (!empty($item['isbn'])): ?>
-                                            <br><small class="text-muted">ISBN: <?= esc($item['isbn']) ?></small>
+                                            <br><small class="text-muted">ISBN: <?= esc((string) $item['isbn']) ?></small>
                                         <?php endif; ?>
                                     </td>
-                                    <td><?= esc($item['pengarang']) ?></td>
-                                    <td><?= esc($item['penerbit']) ?></td>
+                                    <td><?= esc((string) $item['pengarang']) ?></td>
+                                    <td><?= esc((string) $item['penerbit']) ?></td>
                                     <td>
-                                        <span class="badge bg-secondary"><?= esc($item['genre']) ?></span>
+                                        <span class="badge bg-secondary"><?= esc((string) $item['genre']) ?></span>
                                     </td>
                                     <td>Rp <?= number_format($item['harga'], 0, ',', '.') ?></td>
                                     <td>

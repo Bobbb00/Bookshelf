@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var array $users
+ */
+?>
 <?= $this->extend('template/admin/admin_layout') ?>
 <?= $this->section('page-content') ?>
 <main>
@@ -57,8 +62,8 @@
                             <?php foreach ($users as $u): ?>
                                 <tr>
                                     <td><?= $u['id'] ?></td>
-                                    <td><strong><?= esc($u['username']) ?></strong></td>
-                                    <td><?= esc($u['email']) ?></td>
+                                    <td><strong><?= esc((string) $u['username']) ?></strong></td>
+                                    <td><?= esc((string) $u['email']) ?></td>
                                     <td>
                                         <?php if ($u['role'] == 'admin'): ?>
                                             <span class="badge bg-danger">Admin</span>

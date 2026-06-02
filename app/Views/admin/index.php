@@ -1,3 +1,12 @@
+<?php
+/**
+ * @var int $totalBuku
+ * @var int $totalStok
+ * @var float|int $totalNilai
+ * @var int $stokHabis
+ * @var array $bukuTerbaru
+ */
+?>
 <?= $this->extend('template/admin/admin_layout') ?>
 <?= $this->section('page-content') ?>
 <main>
@@ -94,9 +103,9 @@
                                             </div>
                                         <?php endif; ?>
                                     </td>
-                                    <td><strong><?= esc($item['judul']) ?></strong></td>
-                                    <td><?= esc($item['pengarang']) ?></td>
-                                    <td><span class="badge bg-secondary"><?= esc($item['genre']) ?></span></td>
+                                    <td><strong><?= esc((string) $item['judul']) ?></strong></td>
+                                    <td><?= esc((string) $item['pengarang']) ?></td>
+                                    <td><span class="badge bg-secondary"><?= esc((string) $item['genre']) ?></span></td>
                                     <td>Rp <?= number_format($item['harga'], 0, ',', '.') ?></td>
                                     <td>
                                         <span class="badge <?= $item['stok'] > 0 ? 'bg-success' : 'bg-danger' ?>">

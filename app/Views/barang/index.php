@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var array $barang
+ */
+?>
 <?= $this->extend('template/index') ?>
 <?= $this->section('page-content') ?>
 <main>
@@ -52,17 +57,17 @@
                             <?php $no = 1; foreach ($barang as $item): ?>
                                 <tr>
                                     <td><?= $no++ ?></td>
-                                    <td><?= esc($item['nama_barang']) ?></td>
+                                    <td><?= esc((string) $item['nama_barang']) ?></td>
                                     <td>
-                                        <span class="badge bg-secondary"><?= esc($item['kategori']) ?></span>
+                                        <span class="badge bg-secondary"><?= esc((string) $item['kategori']) ?></span>
                                     </td>
-                                    <td>Rp <?= number_format($item['harga'], 0, ',', '.') ?></td>
+                                    <td>Rp <?= number_format((float) ($item['harga'] ?? 0), 0, ',', '.') ?></td>
                                     <td>
-                                        <span class="badge <?= $item['stok'] > 0 ? 'bg-success' : 'bg-danger' ?>">
-                                            <?= $item['stok'] ?> pcs
+                                        <span class="badge <?= ($item['stok'] ?? 0) > 0 ? 'bg-success' : 'bg-danger' ?>">
+                                            <?= esc((string) ($item['stok'] ?? 0)) ?> pcs
                                         </span>
                                     </td>
-                                    <td><?= esc($item['deskripsi'] ?? '-') ?></td>
+                                    <td><?= esc((string) ($item['deskripsi'] ?? '-')) ?></td>
                                     <td class="text-center">
                                         <a href="<?= base_url('/barang/edit/' . $item['id']) ?>"
                                            class="btn btn-warning btn-sm">

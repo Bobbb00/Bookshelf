@@ -1,3 +1,9 @@
+<?php 
+/**
+ * @var \CodeIgniter\Validation\Validation $validation
+ */
+$validation = $validation ?? \Config\Services::validation();
+?>
 <?= $this->extend('template/index') ?>
 <?= $this->section('page-content') ?>
 <main>

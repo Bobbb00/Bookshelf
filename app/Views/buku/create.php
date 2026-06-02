@@ -1,3 +1,4 @@
+<?php $validation = $validation ?? \Config\Services::validation(); ?>
 <?= $this->extend('template/index') ?>
 <?= $this->section('page-content') ?>
 <main>

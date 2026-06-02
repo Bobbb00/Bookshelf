@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \CodeIgniter\Validation\Validation $validation
+ * @var array $roles
+ */
+?>
 <?= $this->extend('template/admin/admin_layout') ?>
 <?= $this->section('page-content') ?>
 <main>

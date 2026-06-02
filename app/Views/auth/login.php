@@ -47,7 +47,7 @@
                     </div>
                     <?php if ($config->allowRegistration) : ?>
                     <div class="card-footer text-center py-3 bg-light border-0 rounded-bottom-4">
-                        <div class="small"><a href="<?= url_to('register') ?>">Need an account? <?=lang('Auth.signup')?></a></div>
+                        <div class="small">Need an account?<a href="<?= url_to('register') ?>"> <?=lang('Auth.register')?></a></div>
                     </div>
                     <?php endif; ?>
                 </div>

@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var array $buku
+ * @var \CodeIgniter\Validation\Validation $validation
+ */
+$validation = $validation ?? \Config\Services::validation();
+?>
 <?= $this->extend('template/admin/admin_layout') ?>
 <?= $this->section('page-content') ?>
 <main>

@@ -1,3 +1,11 @@
+<?php
+/**
+ * @var \stdClass $user
+ * @var \CodeIgniter\Validation\Validation $validation
+ * @var array $roles
+ * @var int|string $currentRole
+ */
+?>
 <?= $this->extend('template/admin/admin_layout') ?>
 <?= $this->section('page-content') ?>
 <main>
@@ -12,7 +20,7 @@
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-edit me-1"></i>
-                Form Edit User: <?= esc($user->username) ?>
+                Form Edit User: <?= esc((string) $user->username) ?>
             </div>
             <div class="card-body">
                 <form action="<?= base_url('/user/update/' . $user->id) ?>" method="POST">
@@ -23,7 +31,7 @@
                         <input type="text"
                             class="form-control <?= ($validation->hasError('username')) ? 'is-invalid' : '' ?>"
                             id="username" name="username"
-                            value="<?= old('username', esc($user->username)) ?>"
+                            value="<?= old('username', esc((string) $user->username)) ?>"
                             placeholder="Username (tanpa spasi)">
                         <div class="invalid-feedback"><?= $validation->getError('username') ?></div>
                     </div>
