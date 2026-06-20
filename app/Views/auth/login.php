@@ -31,6 +31,9 @@
                                 <div class="invalid-feedback">
                                     <?= session('errors.password') ?>
                                 </div>
+                                <div class="form-text text-muted small mt-1">
+                                    <i class="fas fa-info-circle me-1"></i> Gunakan password minimal 8 karakter dengan kombinasi huruf besar, huruf kecil, angka, dan simbol.
+                                </div>
                             </div>
                             <?php if ($config->allowRemembering): ?>
                             <div class="form-check mb-3">

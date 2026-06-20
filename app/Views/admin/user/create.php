@@ -52,6 +52,16 @@
                                 id="password" name="password"
                                 placeholder="Minimal 8 karakter">
                             <div class="invalid-feedback"><?= $validation->getError('password') ?></div>
+                            
+                            <!-- Strength Indicator -->
+                            <div id="password-strength-container" class="mt-2 d-none">
+                                <div class="progress" style="height: 6px;">
+                                    <div id="strength-bar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mt-1">
+                                    <span class="small text-muted">Kekuatan: <span id="strength-text" class="fw-bold">-</span></span>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-md-6 mb-3">
@@ -62,6 +72,10 @@
                                 placeholder="Ulangi password">
                             <div class="invalid-feedback"><?= $validation->getError('pass_confirm') ?></div>
                         </div>
+                    </div>
+
+                    <div class="text-muted small mb-4">
+                        <i class="fas fa-shield-alt text-success me-1"></i> Gunakan password minimal 8 karakter dengan kombinasi huruf besar, huruf kecil, angka, dan simbol agar akun lebih aman.
                     </div>
 
                     <div class="mb-4">
@@ -90,4 +104,47 @@
         </div>
     </div>
 </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.getElementById('password');
+    const strengthContainer = document.getElementById('password-strength-container');
+    const strengthBar = document.getElementById('strength-bar');
+    const strengthText = document.getElementById('strength-text');
+
+    passwordInput.addEventListener('input', function() {
+        const password = passwordInput.value;
+        if (password.length === 0) {
+            strengthContainer.classList.add('d-none');
+            return;
+        }
+
+        strengthContainer.classList.remove('d-none');
+        
+        let score = 0;
+        if (password.length >= 8) score++;
+        if (/[A-Z]/.test(password)) score++;
+        if (/[a-z]/.test(password)) score++;
+        if (/[0-9]/.test(password)) score++;
+        if (/[^A-Za-z0-9]/.test(password)) score++;
+
+        let pct = (score / 5) * 100;
+        strengthBar.style.width = pct + '%';
+
+        if (score <= 2) {
+            strengthBar.className = 'progress-bar bg-danger';
+            strengthText.innerText = 'Password lemah';
+            strengthText.className = 'fw-bold text-danger';
+        } else if (score <= 4) {
+            strengthBar.className = 'progress-bar bg-warning';
+            strengthText.innerText = 'Password sedang';
+            strengthText.className = 'fw-bold text-warning';
+        } else {
+            strengthBar.className = 'progress-bar bg-success';
+            strengthText.innerText = 'Password kuat';
+            strengthText.className = 'fw-bold text-success';
+        }
+    });
+});
+</script>
 <?= $this->endSection() ?>

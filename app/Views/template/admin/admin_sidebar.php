@@ -17,10 +17,15 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                 Kelola User
             </a>
+
+            <a class="nav-link" href="<?= base_url('/admin/orders') ?>">
+                <div class="sb-nav-link-icon"><i class="fas fa-receipt"></i></div>
+                Riwayat Pembelian
+            </a>
         </div>
     </div>
     <div class="sb-sidenav-footer">
         <div class="small">Logged in as:</div>
-        Admin Bookshelf
+        <?= user()->username ?? 'Admin' ?>
     </div>
 </nav>

@@ -53,7 +53,7 @@ class User extends BaseController
         $rules = [
             'username' => 'required|alpha_numeric_space|min_length[3]|max_length[30]|is_unique[users.username]',
             'email'    => 'required|valid_email|is_unique[users.email]',
-            'password' => 'required|min_length[8]',
+            'password' => 'required|strong_password',
             'pass_confirm' => 'required|matches[password]',
             'role'     => 'required|is_not_unique[auth_groups.id]',
         ];
@@ -123,7 +123,7 @@ class User extends BaseController
 
         // Only validate password if it's filled
         if (!empty($this->request->getPost('password'))) {
-            $rules['password'] = 'required|min_length[8]';
+            $rules['password'] = 'required|strong_password';
             $rules['pass_confirm'] = 'required|matches[password]';
         }
 

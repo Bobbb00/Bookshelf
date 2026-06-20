@@ -6,10 +6,26 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-shopping-bag"></i></div>
                 Katalog Buku
             </a>
+
+            <div class="sb-sidenav-menu-heading">Menu Customer</div>
+            <a class="nav-link" href="<?= base_url('/cart') ?>">
+                <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
+                Keranjang Belanja
+            </a>
+            
+            <a class="nav-link" href="<?= base_url('/orders') ?>">
+                <div class="sb-nav-link-icon"><i class="fas fa-history"></i></div>
+                Riwayat Pembelian
+            </a>
+            
+            <a class="nav-link" href="<?= base_url('/profile') ?>">
+                <div class="sb-nav-link-icon"><i class="fas fa-user-cog"></i></div>
+                Profil Saya
+            </a>
         </div>
     </div>
     <div class="sb-sidenav-footer">
         <div class="small">Logged in as:</div>
-        User Bookshelf
+        <?= user()->username ?? 'Customer' ?>
     </div>
 </nav>

@@ -131,3 +131,7 @@ _modules/*
 *.sql
 public/img/buku/*
 !public/img/buku/index.html
+
+# Internal Documentation
+audit.md
+logic.md

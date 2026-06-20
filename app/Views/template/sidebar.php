@@ -12,6 +12,14 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
                                 Data Buku
                             </a>
+                            <a class="nav-link" href="<?= base_url('/user') ?>">
+                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                                Kelola User
+                            </a>
+                            <a class="nav-link" href="<?= base_url('/admin/orders') ?>">
+                                <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
+                                Kelola Pesanan
+                            </a>
                             <?php endif; ?>
                             <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
