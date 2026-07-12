@@ -80,17 +80,71 @@ database.default.port     = 3306
 
 > ⚠️ Jangan ubah nama file `.env` ke nama lain dan jangan commit file ini ke Git.
 
-### Langkah 4 — Import Database
+### Langkah 4 — Siapkan Database
 
-1. Pastikan **XAMPP** sudah berjalan (Apache + MySQL aktif)
-2. Buka **phpMyAdmin** → `http://localhost/phpmyadmin`
-3. Buat database baru bernama `pbf`
-4. Klik tab **Import** → pilih file `pbf.sql` yang ada di root proyek
-5. Klik **Go** untuk memulai import
+Pastikan **XAMPP** sudah berjalan (Apache + MySQL aktif), kemudian buat database kosong terlebih dahulu:
 
-> 📝 File `pbf.sql` sudah tersedia terpisah (tidak di-commit ke Git). Minta file ini dari pemilik proyek.
+1. Buka `http://localhost/phpmyadmin`
+2. Klik **New** → beri nama `pbf` → klik **Create**
 
-### Langkah 5 — Jalankan Server
+Setelah database `pbf` dibuat, pilih salah satu cara berikut:
+
+---
+
+#### 🅐 Via Migration & Seeder *(Cara Standar CI4)*
+
+Cara ini menggunakan file migration yang ada di `app/Database/Migrations/` untuk membuat tabel secara otomatis, lalu mengisi data awal via Seeder.
+
+```bash
+# 1. Jalankan semua migration (membuat semua tabel)
+php spark migrate
+
+# 2. Isi data awal (auth_groups, users, buku, dll)
+php spark db:seed AppSeeder
+```
+
+Urutan tabel yang dibuat oleh migration:
+
+| Batch | Migration File | Yang Dibuat |
+|-------|----------------|-------------|
+| 1 | `Myth\Auth` (otomatis) | Semua tabel `auth_*` + `users` |
+| 2 | `2026-06-09-030000_CreateBukuTable` | Tabel `buku` |
+| 2 | `2026-06-09-035144_CreateCartAndOrderTables` | Tabel `carts`, `cart_items`, `orders`, `order_items` + kolom `alamat`, `no_hp` di `users` |
+| 2 | `2026-06-18-100000_AddCustomFieldsToUsers` | Kolom `fullname`, `user_img` di `users` |
+
+> ✅ Setelah selesai, semua tabel dan data awal (akun admin, user, data buku) sudah siap.
+
+---
+
+#### 🅑 Via Import SQL *(Cara Cepat)*
+
+Cara ini menggunakan file `pbf.sql` yang sudah berisi semua tabel dan data sekaligus.
+
+**Lewat phpMyAdmin:**
+1. Pilih database `pbf` → klik tab **Import**
+2. Klik **Choose File** → pilih file `pbf.sql` dari root folder proyek
+3. Klik **Go / Import** → tunggu hingga sukses ✅
+
+**Lewat Command Line:**
+```bash
+mysql -u root pbf < pbf.sql
+```
+
+> 📝 Gunakan cara ini jika ingin setup cepat tanpa menjalankan migration satu per satu.
+
+---
+
+### Langkah 5 — Buat Folder Upload *(Jika Belum Ada)*
+
+```bash
+# Windows
+mkdir public\img\buku
+
+# Linux / Mac
+mkdir -p public/img/buku
+```
+
+### Langkah 6 — Jalankan Server
 
 ```bash
 php spark serve
@@ -101,6 +155,8 @@ Akses aplikasi di browser:
 ```
 http://localhost:8080
 ```
+
+> 💡 Alternatif via XAMPP: akses `http://localhost/PBF/CI4/public`
 
 ---
 
@@ -273,16 +329,38 @@ Menggunakan library **Myth/Auth** untuk CodeIgniter 4.
 
 **Q: Halaman blank / error 500?**
 
-> Pastikan file `.env` sudah dikonfigurasi dan `CI_ENVIRONMENT = development` untuk melihat detail error.
+> Pastikan file `.env` sudah dibuat (bukan masih bernama `env`) dan isi `CI_ENVIRONMENT = development` untuk melihat detail error di browser.
 
 **Q: Database tidak bisa konek?**
 
-> Cek konfigurasi `database.default.*` di `.env`. Pastikan XAMPP MySQL sudah running.
+> Cek konfigurasi `database.default.*` di `.env`. Pastikan XAMPP MySQL sudah **Running** dan nama database `pbf` sudah dibuat.
 
 **Q: `composer install` gagal?**
 
-> Pastikan versi PHP >= 8.1 dengan menjalankan `php -v`.
+> Pastikan versi PHP >= 8.1 dengan menjalankan `php -v`. Jika belum, update PHP di XAMPP.
+
+**Q: `php spark migrate` error / tabel sudah ada?**
+
+> Jika database sudah pernah diimport via SQL lalu dijalankan migrate, bisa konflik. Solusi:
+> ```bash
+> # Rollback semua migration lalu migrate ulang
+> php spark migrate:rollback
+> php spark migrate
+> ```
+> Atau drop database `pbf` dan buat ulang, lalu migrate dari awal.
+
+**Q: `php spark db:seed AppSeeder` gagal / data duplikat?**
+
+> Seeder menggunakan `ON CONFLICT DO NOTHING` (untuk PostgreSQL). Untuk MySQL, jika muncul error duplikat, jalankan:
+> ```bash
+> php spark db:seed AppSeeder --force
+> ```
+> Atau truncate tabel terkait terlebih dahulu via phpMyAdmin.
 
 **Q: Gambar upload tidak muncul?**
 
-> Pastikan folder `public/img/buku/` ada dan memiliki permission write.
+> Pastikan folder `public/img/buku/` sudah ada dan memiliki permission write. Buat manual jika belum ada.
+
+**Q: Error "Class not found" setelah clone?**
+
+> Jalankan `composer dump-autoload` untuk menyegarkan autoloader.

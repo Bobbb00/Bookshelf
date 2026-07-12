@@ -57,15 +57,12 @@ class Buku extends BaseController
         ];
 
         if (! $this->validate($rules)) {
-            return view('admin/buku/create', [
-                'title'      => 'Tambah Buku',
-                'validation' => $this->validator,
-            ]);
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         // Handle File Upload
         $fileGambar = $this->request->getFile('gambar');
-        if ($fileGambar && $fileGambar->getError() == 4) {
+        if (!$fileGambar || $fileGambar->getError() == 4) {
             $namaGambar = 'default.png';
         } else {
             $namaGambar = $fileGambar->getRandomName();
@@ -120,22 +117,17 @@ class Buku extends BaseController
             'genre'     => 'required|max_length[50]',
             'harga'     => 'required|numeric',
             'stok'      => 'required|integer',
-            'gambar'    => 'max_size[gambar,2048]|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]'
         ];
 
         if (! $this->validate($rules)) {
-            return view('admin/buku/edit', [
-                'title'      => 'Edit Buku',
-                'buku'       => $this->bukuModel->find($id),
-                'validation' => $this->validator,
-            ]);
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         // Handle File Upload
         $fileGambar = $this->request->getFile('gambar');
         $bukuLama = $this->bukuModel->find($id);
 
-        if ($fileGambar && $fileGambar->getError() == 4) {
+        if (!$fileGambar || $fileGambar->getError() == 4) {
             $namaGambar = $bukuLama['gambar'];
         } else {
             $namaGambar = $fileGambar->getRandomName();

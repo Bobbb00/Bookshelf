@@ -1,8 +1,9 @@
 <?php
-/**
- * @var \CodeIgniter\Validation\Validation $validation
- */
-$validation = $validation ?? \Config\Services::validation();
+$errors    = session('errors') ?? [];
+$validation = \Config\Services::validation();
+foreach ($errors as $field => $message) {
+    $validation->setError($field, $message);
+}
 ?>
 <?= $this->extend('template/admin/admin_layout') ?>
 <?= $this->section('page-content') ?>

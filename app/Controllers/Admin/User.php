@@ -59,11 +59,7 @@ class User extends BaseController
         ];
 
         if (!$this->validate($rules)) {
-            return view('admin/user/create', [
-                'title'      => 'Tambah User Baru',
-                'validation' => $this->validator,
-                'roles'      => $this->groupModel->findAll(),
-            ]);
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         // Create user entity (this will automatically hash the password)
@@ -128,17 +124,7 @@ class User extends BaseController
         }
 
         if (!$this->validate($rules)) {
-            $db = \Config\Database::connect();
-            $userGroup = $db->table('auth_groups_users')->where('user_id', $id)->get()->getRowArray();
-            $currentRoleId = $userGroup ? $userGroup['group_id'] : null;
-
-            return view('admin/user/edit', [
-                'title'      => 'Edit User',
-                'user'       => $user,
-                'currentRole'=> $currentRoleId,
-                'roles'      => $this->groupModel->findAll(),
-                'validation' => $this->validator,
-            ]);
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         // Update basic info

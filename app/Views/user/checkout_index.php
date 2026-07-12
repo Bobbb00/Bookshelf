@@ -1,10 +1,12 @@
 <?php
-/**
- * @var array $items
- * @var float|int $total
- * @var object|array $user
- * @var \CodeIgniter\Validation\Validation $validation
- */
+$errors     = session('errors') ?? [];
+$validation = \Config\Services::validation();
+foreach ($errors as $field => $message) {
+    $validation->setError($field, $message);
+}
+/** @var array $items */
+/** @var float|int $total */
+/** @var object|array $user */
 ?>
 <?= $this->extend('template/user/user_layout') ?>
 <?= $this->section('page-content') ?>

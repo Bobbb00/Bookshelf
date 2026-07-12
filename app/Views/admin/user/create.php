@@ -1,8 +1,10 @@
 <?php
-/**
- * @var \CodeIgniter\Validation\Validation $validation
- * @var array $roles
- */
+$errors     = session('errors') ?? [];
+$validation = \Config\Services::validation();
+foreach ($errors as $field => $message) {
+    $validation->setError($field, $message);
+}
+$roles = $roles ?? [];
 ?>
 <?= $this->extend('template/admin/admin_layout') ?>
 <?= $this->section('page-content') ?>

@@ -1,11 +1,15 @@
 <?php
-/**
- * @var array $buku
- * @var \CodeIgniter\Validation\Validation $validation
- */
-$validation = $validation ?? \Config\Services::validation();
+/** @var array $buku */
+$buku      = $buku ?? [];
+$errors    = session('errors') ?? [];
+$validator = \Config\Services::validation();
+foreach ($errors as $field => $message) {
+    $validator->setError($field, $message);
+}
+// Saat redirect()->back(), $buku kosong — ambil ID dari URL
+$bukuId = !empty($buku['id']) ? $buku['id'] : service('request')->getUri()->getSegment(3);
 ?>
-<?= $this->extend('template/admin/admin_layout') ?>
+<?= $this->extend('template/index') ?>
 <?= $this->section('page-content') ?>
 <main>
     <div class="container-fluid px-4">
@@ -22,7 +26,7 @@ $validation = $validation ?? \Config\Services::validation();
                 Form Edit Buku
             </div>
             <div class="card-body">
-                <form action="<?= base_url('/buku/update/' . $buku['id']) ?>" method="POST" enctype="multipart/form-data">
+                <form action="<?= base_url('/buku/update/' . $bukuId) ?>" method="POST">
                     <?= csrf_field() ?>
 
                     <div class="mb-3">
@@ -30,11 +34,11 @@ $validation = $validation ?? \Config\Services::validation();
                             Judul Buku <span class="text-danger">*</span>
                         </label>
                         <input type="text"
-                            class="form-control <?= ($validation->hasError('judul')) ? 'is-invalid' : '' ?>"
+                            class="form-control <?= ($validator->hasError('judul')) ? 'is-invalid' : '' ?>"
                             id="judul" name="judul"
                             value="<?= old('judul', esc($buku['judul'])) ?>"
                             placeholder="Masukkan judul buku">
-                        <div class="invalid-feedback"><?= $validation->getError('judul') ?></div>
+                        <div class="invalid-feedback"><?= $validator->getError('judul') ?></div>
                     </div>
 
                     <div class="row">
@@ -43,11 +47,11 @@ $validation = $validation ?? \Config\Services::validation();
                                 Pengarang <span class="text-danger">*</span>
                             </label>
                             <input type="text"
-                                class="form-control <?= ($validation->hasError('pengarang')) ? 'is-invalid' : '' ?>"
+                                class="form-control <?= ($validator->hasError('pengarang')) ? 'is-invalid' : '' ?>"
                                 id="pengarang" name="pengarang"
                                 value="<?= old('pengarang', esc($buku['pengarang'])) ?>"
                                 placeholder="Nama pengarang">
-                            <div class="invalid-feedback"><?= $validation->getError('pengarang') ?></div>
+                            <div class="invalid-feedback"><?= $validator->getError('pengarang') ?></div>
                         </div>
 
                         <div class="col-md-6 mb-3">
@@ -55,11 +59,11 @@ $validation = $validation ?? \Config\Services::validation();
                                 Penerbit <span class="text-danger">*</span>
                             </label>
                             <input type="text"
-                                class="form-control <?= ($validation->hasError('penerbit')) ? 'is-invalid' : '' ?>"
+                                class="form-control <?= ($validator->hasError('penerbit')) ? 'is-invalid' : '' ?>"
                                 id="penerbit" name="penerbit"
                                 value="<?= old('penerbit', esc($buku['penerbit'])) ?>"
                                 placeholder="Nama penerbit">
-                            <div class="invalid-feedback"><?= $validation->getError('penerbit') ?></div>
+                            <div class="invalid-feedback"><?= $validator->getError('penerbit') ?></div>
                         </div>
                     </div>
 
@@ -78,11 +82,11 @@ $validation = $validation ?? \Config\Services::validation();
                                 Genre <span class="text-danger">*</span>
                             </label>
                             <input type="text"
-                                class="form-control <?= ($validation->hasError('genre')) ? 'is-invalid' : '' ?>"
+                                class="form-control <?= ($validator->hasError('genre')) ? 'is-invalid' : '' ?>"
                                 id="genre" name="genre"
                                 value="<?= old('genre', esc($buku['genre'])) ?>"
                                 placeholder="Contoh: Fiksi, Non-fiksi, Sains, dll.">
-                            <div class="invalid-feedback"><?= $validation->getError('genre') ?></div>
+                            <div class="invalid-feedback"><?= $validator->getError('genre') ?></div>
                         </div>
                     </div>
 
@@ -92,11 +96,11 @@ $validation = $validation ?? \Config\Services::validation();
                                 Harga (Rp) <span class="text-danger">*</span>
                             </label>
                             <input type="number"
-                                class="form-control <?= ($validation->hasError('harga')) ? 'is-invalid' : '' ?>"
+                                class="form-control <?= ($validator->hasError('harga')) ? 'is-invalid' : '' ?>"
                                 id="harga" name="harga"
                                 value="<?= old('harga', $buku['harga']) ?>"
                                 min="0" placeholder="0">
-                            <div class="invalid-feedback"><?= $validation->getError('harga') ?></div>
+                            <div class="invalid-feedback"><?= $validator->getError('harga') ?></div>
                         </div>
 
                         <div class="col-md-6 mb-3">
@@ -104,11 +108,11 @@ $validation = $validation ?? \Config\Services::validation();
                                 Stok <span class="text-danger">*</span>
                             </label>
                             <input type="number"
-                                class="form-control <?= ($validation->hasError('stok')) ? 'is-invalid' : '' ?>"
+                                class="form-control <?= ($validator->hasError('stok')) ? 'is-invalid' : '' ?>"
                                 id="stok" name="stok"
                                 value="<?= old('stok', $buku['stok']) ?>"
                                 min="0" placeholder="0">
-                            <div class="invalid-feedback"><?= $validation->getError('stok') ?></div>
+                            <div class="invalid-feedback"><?= $validator->getError('stok') ?></div>
                         </div>
                     </div>
 
@@ -116,24 +120,6 @@ $validation = $validation ?? \Config\Services::validation();
                         <label for="deskripsi" class="form-label fw-semibold">Deskripsi</label>
                         <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3"
                             placeholder="Sinopsis atau deskripsi singkat buku (opsional)"><?= old('deskripsi', esc($buku['deskripsi'])) ?></textarea>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-2">
-                            <?php if (!empty($buku['gambar']) && $buku['gambar'] != 'default.png'): ?>
-                                <img src="<?= base_url('img/buku/' . $buku['gambar']) ?>" alt="Cover Buku" class="img-thumbnail" style="max-height: 120px;">
-                            <?php else: ?>
-                                <div class="bg-light d-flex align-items-center justify-content-center img-thumbnail border" style="height: 120px; width: 90px;">
-                                    <i class="fas fa-image fa-2x text-secondary opacity-50"></i>
-                                </div>
-                            <?php endif; ?>
-                        </div>
-                        <div class="col-md-10">
-                            <label for="gambar" class="form-label fw-semibold">Ganti Cover Buku</label>
-                            <input class="form-control <?= ($validation->hasError('gambar')) ? 'is-invalid' : '' ?>" type="file" id="gambar" name="gambar" accept=".jpg,.jpeg,.png">
-                            <div class="invalid-feedback"><?= $validation->getError('gambar') ?></div>
-                            <div class="form-text">Biarkan kosong jika tidak ingin mengganti gambar. Format: JPG, JPEG, PNG. Max 2MB.</div>
-                        </div>
                     </div>
 
                     <div class="d-flex gap-2">

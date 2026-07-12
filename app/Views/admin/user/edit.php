@@ -1,10 +1,14 @@
 <?php
-/**
- * @var \stdClass $user
- * @var \CodeIgniter\Validation\Validation $validation
- * @var array $roles
- * @var int|string $currentRole
- */
+$errors      = session('errors') ?? [];
+$validation  = \Config\Services::validation();
+foreach ($errors as $field => $message) {
+    $validation->setError($field, $message);
+}
+/** @var \stdClass $user */
+/** @var array $roles */
+/** @var int|string $currentRole */
+$roles       = $roles ?? [];
+$currentRole = $currentRole ?? null;
 ?>
 <?= $this->extend('template/admin/admin_layout') ?>
 <?= $this->section('page-content') ?>

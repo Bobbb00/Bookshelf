@@ -12,23 +12,26 @@ $routes->get('/register', 'Home::register');
 $routes->get('/dashboard', 'Home::dashboard');
 $routes->get('/buku/detail/(:num)', 'Home::detail/$1');
 
-// Profile
-$routes->get('/profile', 'UserController::profile');
-$routes->post('/profile/update', 'UserController::updateProfile');
+// Routes yang butuh login (user biasa)
+$routes->group('', ['filter' => 'login'], static function ($routes) {
+    // Profile
+    $routes->get('/profile', 'UserController::profile');
+    $routes->post('/profile/update', 'UserController::updateProfile');
 
-// Cart
-$routes->get('/cart', 'CartController::index');
-$routes->post('/cart/add', 'CartController::add');
-$routes->post('/cart/update', 'CartController::update');
-$routes->get('/cart/delete/(:num)', 'CartController::delete/$1');
+    // Cart
+    $routes->get('/cart', 'CartController::index');
+    $routes->post('/cart/add', 'CartController::add');
+    $routes->post('/cart/update', 'CartController::update');
+    $routes->get('/cart/delete/(:num)', 'CartController::delete/$1');
 
-// Checkout
-$routes->get('/checkout', 'CheckoutController::index');
-$routes->post('/checkout/process', 'CheckoutController::process');
+    // Checkout
+    $routes->get('/checkout', 'CheckoutController::index');
+    $routes->post('/checkout/process', 'CheckoutController::process');
 
-// Customer Orders
-$routes->get('/orders', 'OrderController::index');
-$routes->get('/orders/detail/(:num)', 'OrderController::detail/$1');
+    // Customer Orders
+    $routes->get('/orders', 'OrderController::index');
+    $routes->get('/orders/detail/(:num)', 'OrderController::detail/$1');
+});
 
 // admin
 $routes->group('', ['filter' => 'role:admin'], static function ($routes) {

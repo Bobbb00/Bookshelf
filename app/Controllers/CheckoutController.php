@@ -95,20 +95,7 @@ class CheckoutController extends BaseController
         ];
 
         if (!$this->validate($rules)) {
-            $userModel = new AppUserModel();
-            $user = $userModel->find($userId);
-            
-            $total = 0;
-            foreach ($items as $item) {
-                $total += $item['harga'] * $item['qty'];
-            }
-
-            return view('user/checkout_index', [
-                'items'      => $items,
-                'total'      => $total,
-                'user'       => $user,
-                'validation' => $this->validator
-            ]);
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         // Database Transaction to guarantee integrity
@@ -121,6 +108,7 @@ class CheckoutController extends BaseController
             $buku = $this->bukuModel->find($item['buku_id']);
             if (!$buku || $item['qty'] > $buku['stok']) {
                 $db->transRollback();
+                $db->transComplete();
                 session()->setFlashdata('error', 'Buku "' . ($buku['judul'] ?? 'Unknown') . '" melebihi stok yang tersedia. Transaksi dibatalkan.');
                 return redirect()->to('/cart');
             }

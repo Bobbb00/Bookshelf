@@ -42,14 +42,7 @@ class UserController extends BaseController
         }
 
         if (!$this->validate($rules)) {
-            $userModel   = new AppUserModel();
-            $currentUser = $userModel->find($userId);
-            $userObject  = (object) array_merge((array) $currentUser, $this->request->getPost());
-
-            return view('user/profile', [
-                'user'       => $userObject,
-                'validation' => $this->validator
-            ]);
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         // Gunakan raw DB query untuk custom fields agar tidak memicu

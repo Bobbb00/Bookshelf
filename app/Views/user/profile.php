@@ -1,8 +1,10 @@
 <?php
-/**
- * @var object|array $user
- * @var \CodeIgniter\Validation\Validation $validation
- */
+$errors     = session('errors') ?? [];
+$validation = \Config\Services::validation();
+foreach ($errors as $field => $message) {
+    $validation->setError($field, $message);
+}
+/** @var object|array $user */
 ?>
 <?= $this->extend(in_groups('admin') ? 'template/index' : 'template/user/user_layout') ?>
 <?= $this->section('page-content') ?>
