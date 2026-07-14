@@ -135,3 +135,13 @@ public/img/buku/*
 # Internal Documentation
 audit.md
 logic.md
+
+#-------------------------
+# Playwright Testing
+#-------------------------
+node_modules/
+test-results/
+playwright-report/
+.env.testing
+# Playwright cache (browser binaries dikelola Playwright sendiri)
+# .gitignore ini TIDAK mengabaikan file test (tests/e2e/) agar bisa di-commit

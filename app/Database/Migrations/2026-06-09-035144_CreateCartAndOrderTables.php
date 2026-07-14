@@ -28,7 +28,9 @@ class CreateCartAndOrderTables extends Migration
                 'auto_increment' => true,
             ],
             'user_id' => [
-                'type' => 'INT',
+                'type'       => 'INT',
+                'constraint' => 11,
+                'unsigned'   => true,
             ],
             'created_at' => [
                 'type' => 'TIMESTAMP',
@@ -80,7 +82,9 @@ class CreateCartAndOrderTables extends Migration
                 'auto_increment' => true,
             ],
             'user_id' => [
-                'type' => 'INT',
+                'type'       => 'INT',
+                'constraint' => 11,
+                'unsigned'   => true,
             ],
             'nomor_pesanan' => [
                 'type'       => 'VARCHAR',

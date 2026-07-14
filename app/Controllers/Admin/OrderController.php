@@ -82,6 +82,7 @@ class OrderController extends BaseController
         }
 
         if ($oldStatus === $newStatus) {
+            session()->setFlashdata('success', 'Status pesanan ' . $order['nomor_pesanan'] . ' berhasil dipastikan tetap "Diproses".');
             return redirect()->to('/admin/orders/detail/' . $id);
         }
 

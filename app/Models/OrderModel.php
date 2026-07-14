@@ -48,8 +48,8 @@ class OrderModel extends Model
         }
 
         if (!empty($date)) {
-            // PostgreSQL: gunakan ::date casting, bukan DATE() MySQL
-            $builder->where('orders.tanggal_pembelian::date', $date);
+            // MySQL/MariaDB:
+            $builder->where('DATE(orders.tanggal_pembelian)', $date);
         }
 
         return $builder->orderBy('orders.tanggal_pembelian', 'DESC')->findAll();

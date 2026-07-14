@@ -14,6 +14,18 @@
         </ol>
 
         <div class="card shadow-sm border-0 rounded-3 overflow-hidden">
+            <!-- Flash Messages -->
+            <?php if (session()->getFlashdata('success')): ?>
+                <div class="alert alert-success m-3 mb-0" role="alert">
+                    <?= session()->getFlashdata('success') ?>
+                </div>
+            <?php endif; ?>
+            <?php if (session()->getFlashdata('error')): ?>
+                <div class="alert alert-danger m-3 mb-0" role="alert">
+                    <?= session()->getFlashdata('error') ?>
+                </div>
+            <?php endif; ?>
+            
             <div class="row g-0">
                 <!-- Cover Image -->
                 <div class="col-md-4 bg-light border-end d-flex align-items-center justify-content-center" style="min-height: 400px;">

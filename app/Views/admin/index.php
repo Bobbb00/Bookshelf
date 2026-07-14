@@ -17,7 +17,8 @@
         </ol>
 
         <!-- Stat Cards -->
-        <div class="row g-4 mb-4">
+        <div class="row g-4 mb-4" data-testid="dashboard-stats">
+            <div class="col-xl-3 col-md-6" data-testid="stat-total-buku">
             <?= view('components/stat_card', [
                 'title'      => 'Total Judul Buku',
                 'value'      => $totalBuku,
@@ -27,7 +28,9 @@
                 'link'       => '/buku',
                 'footerText' => 'Lihat semua buku'
             ]) ?>
+            </div>
 
+            <div class="col-xl-3 col-md-6" data-testid="stat-total-stok">
             <?= view('components/stat_card', [
                 'title'      => 'Total Stok',
                 'value'      => number_format($totalStok),
@@ -37,7 +40,9 @@
                 'link'       => '',
                 'footerText' => 'Total eksemplar tersedia'
             ]) ?>
+            </div>
 
+            <div class="col-xl-3 col-md-6" data-testid="stat-nilai-inventori">
             <?= view('components/stat_card', [
                 'title'      => 'Nilai Inventori',
                 'value'      => 'Rp ' . number_format($totalNilai, 0, ',', '.'),
@@ -47,7 +52,9 @@
                 'link'       => '',
                 'footerText' => 'Harga × stok semua buku'
             ]) ?>
+            </div>
 
+            <div class="col-xl-3 col-md-6" data-testid="stat-stok-habis">
             <?= view('components/stat_card', [
                 'title'      => 'Stok Habis',
                 'value'      => $stokHabis,
@@ -57,6 +64,7 @@
                 'link'       => '',
                 'footerText' => 'Judul dengan stok = 0'
             ]) ?>
+            </div>
         </div>
 
         <!-- Tabel Buku Terbaru -->

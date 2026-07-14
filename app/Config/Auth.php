@@ -19,6 +19,12 @@ class Auth extends \Myth\Auth\Config\Auth
     public $activeResetter = null; // menghilangan aktivasi reset password
 
     /**
+     * Disable password validators due to compatibility issue with CI4.3+ 
+     * (CodeIgniter\Entity vs CodeIgniter\Entity\Entity)
+     */
+    public $passwordValidators = [];
+
+    /**
      * ==========================================
      * OVERRIDE TAMPILAN (VIEW)
      * ==========================================

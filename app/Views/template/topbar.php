@@ -9,13 +9,13 @@
     <!-- Navbar-->
     <ul class="navbar-nav ms-md-0 me-3 me-lg-4">
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-testid="user-dropdown">
                 <i class="fas fa-user fa-fw"></i> <span class="small d-none d-md-inline ms-1"><?= user()->username ?? 'User' ?></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="<?= base_url('/profile') ?>"><i class="fas fa-user-cog me-2"></i>Edit Profil</a></li>
                 <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="<?= url_to('logout') ?>"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                <li><a class="dropdown-item" href="<?= url_to('logout') ?>" data-testid="logout-link"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
             </ul>
         </li>
     </ul>
